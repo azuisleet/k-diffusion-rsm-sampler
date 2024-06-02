@@ -1,21 +1,19 @@
-from . import smea_sampling
-from .smea_sampling import sample_euler_dy, sample_euler_smea_dy, sample_euler_negative, sample_euler_dy_negative
+from . import rsm_sampling
+from .rsm_sampling import sample_euler_rsm, sample_euler_ancestral_rsm, sample_dpm_2_ancestral_rsm
 
-if smea_sampling.BACKEND == "ComfyUI":
-    if not smea_sampling.INITIALIZED:
+if rsm_sampling.BACKEND == "ComfyUI":
+    if not rsm_sampling.INITIALIZED:
         from comfy.k_diffusion import sampling as k_diffusion_sampling
         from comfy.samplers import SAMPLER_NAMES
 
-        setattr(k_diffusion_sampling, "sample_euler_dy", sample_euler_dy)
-        setattr(k_diffusion_sampling, "sample_euler_smea_dy", sample_euler_smea_dy)
-        setattr(k_diffusion_sampling, "sample_euler_negative", sample_euler_negative)
-        setattr(k_diffusion_sampling, "sample_euler_dy_negative", sample_euler_dy_negative)
+        setattr(k_diffusion_sampling, "sample_euler_rsm", sample_euler_rsm)
+        setattr(k_diffusion_sampling, "sample_euler_a_rsm", sample_euler_ancestral_rsm)
+        setattr(k_diffusion_sampling, "sample_dpmpp_2s_a_rsm", sample_dpm_2_ancestral_rsm)
 
-        SAMPLER_NAMES.append("euler_dy")
-        SAMPLER_NAMES.append("euler_smea_dy")
-        SAMPLER_NAMES.append("euler_negative")
-        SAMPLER_NAMES.append("euler_dy_negative")
+        SAMPLER_NAMES.append("sample_euler_rsm")
+        SAMPLER_NAMES.append("sample_euler_a_rsm")
+        SAMPLER_NAMES.append("sample_dpmpp_2s_a_rsm")
 
-        smea_sampling.INITIALIZED = True
+        rsm_sampling.INITIALIZED = True
 
 NODE_CLASS_MAPPINGS = {}
